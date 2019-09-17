@@ -1,0 +1,7 @@
+type Query {
+	listChallangeCategories: [ChallangeCategorie!]!
+}
+
+type ChallangeCategorie {
+	name: String!
+}

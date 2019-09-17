@@ -1,0 +1,12 @@
+type Query {
+	listLikes(data: ListLikesInput): [Like!]!
+}
+
+type Like {
+	user_id: String!
+	post_id: String!
+}
+
+input ListLikesInput {
+	post_id: String!
+}

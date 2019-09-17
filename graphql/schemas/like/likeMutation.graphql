@@ -1,0 +1,8 @@
+type Mutation {
+	saveLike(data: SaveLikeInput): Like!
+}
+
+input SaveLikeInput {
+	user_id: String!
+	post_id: String!
+}

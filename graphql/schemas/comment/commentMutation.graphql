@@ -1,0 +1,9 @@
+type Mutation {
+	saveComment(data: SaveCommentInput): Comment!
+}
+
+input SaveCommentInput {
+	user_id: String!
+	post_id: String!
+	comment: String!
+}

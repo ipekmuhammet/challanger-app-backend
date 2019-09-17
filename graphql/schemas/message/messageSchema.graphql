@@ -1,0 +1,15 @@
+type Query {
+	listMessages(data: ListMessagesInput): [Message!]!
+}
+
+input ListMessagesInput {
+	user_id: String!
+	chats: [String!]
+}
+
+type Message {
+	id: String!
+	sender: String!
+	receiver: String!
+	message: String!
+}

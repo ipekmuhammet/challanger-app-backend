@@ -1,0 +1,9 @@
+type Mutation {
+	saveMessage(data: SaveMessageInput): Message!
+}
+
+input SaveMessageInput {
+	sender: String!
+	receiver: String!
+	message: String!
+}

@@ -1,0 +1,22 @@
+type Query {
+	listPosts(data: ListPostsInput): [Post!]!
+}
+
+input ListPostsInput {
+	user_id: String
+	target_id: String
+	key: String
+	latest: Boolean
+}
+
+type Post {
+	id: String!
+	user: User!
+	title: String
+	content: String
+	media_one: String
+	media_two: String
+	media_three: String
+	media_four: String
+	media_video: String
+}

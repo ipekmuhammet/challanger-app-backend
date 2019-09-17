@@ -1,0 +1,14 @@
+type Mutation {
+	savePost(data: SavePostInput): Post!
+}
+
+input SavePostInput {
+	user_id: String!
+	title: String
+	content: String
+	media_one: String
+	media_two: String
+	media_three: String
+	media_four: String
+	media_video: String
+}

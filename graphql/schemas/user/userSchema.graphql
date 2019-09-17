@@ -1,0 +1,25 @@
+type Query {
+	listUsers(data: ListUsersInput): [User!]!
+}
+
+input ListUsersInput {
+	key: String
+}
+
+type User {
+	id: String!
+	username: String!
+	name: String!
+	profilePic: String
+	information: String
+	sound: String
+	follows: [Follow!]!
+	followers: [Follow!]!
+	posts: [Post!]!
+	challanges: [Challange!]!
+	messages: [Message!]!
+}
+
+type Token {
+	token: String!
+}

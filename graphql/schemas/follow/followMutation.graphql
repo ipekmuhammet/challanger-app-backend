@@ -1,0 +1,8 @@
+type Mutation {
+	saveFollow(data: saveFollowInput): Follow!
+}
+
+input saveFollowInput {
+	follower: String!
+	followed: String
+}

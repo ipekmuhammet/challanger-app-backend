@@ -1,0 +1,17 @@
+type Mutation {
+	saveUser(data: CreateUserInput): User!
+	signIn(data: SignInInput): User!
+}
+
+input SignInInput {
+	username: String!
+	password: String!
+}
+
+input CreateUserInput {
+	username: String!
+	name: String!
+	password: String!
+	profilePic: String
+	information: String
+}

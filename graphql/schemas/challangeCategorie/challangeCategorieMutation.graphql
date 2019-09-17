@@ -1,0 +1,7 @@
+type Mutation {
+	saveChallangeCategorie(data: SaveChallangeCategorieInput): ChallangeCategorie!
+}
+
+input SaveChallangeCategorieInput {
+	name: String!
+}

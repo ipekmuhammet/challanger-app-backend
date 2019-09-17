@@ -1,0 +1,9 @@
+type Query {
+	listComments: [Comment!]!
+}
+
+type Comment {
+	user_id: String!
+	post_id: String!
+	comment: String!
+}

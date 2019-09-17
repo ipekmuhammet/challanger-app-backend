@@ -1,0 +1,10 @@
+type Mutation {
+	saveChallange(data: SaveChallangeInput): Challange!
+}
+
+input SaveChallangeInput {
+	user_id: String!
+    categorie_id: String!
+    title: String!
+    video: String!
+}
