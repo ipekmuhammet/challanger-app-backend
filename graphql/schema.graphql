@@ -21,3 +21,4 @@
 
 # import Query from './schemas/message/messageSchema.graphql'
 # import Mutation from './schemas/message/messageMutation.graphql'
+# import Subscription from './schemas/message/messageSchema.graphql'

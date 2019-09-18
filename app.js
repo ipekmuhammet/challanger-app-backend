@@ -1,6 +1,8 @@
+const http = require('http');
 const express = require('express');
-const { ApolloServer } = require('apollo-server-express');
+const { ApolloServer, PubSub } = require('apollo-server-express');
 const { importSchema } = require('graphql-import');
+
 const resolvers = require('./graphql/resolvers/index');
 require('dotenv').config()
 require('./helpers/database')();
@@ -15,6 +17,8 @@ const Follow = require('./helpers/models/FollowSchema');
 const Message = require('./helpers/models/MessageSchema');
 const typeDefs = importSchema('./graphql/schema.graphql');
 
+const pubSub = new PubSub();
+
 const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -26,13 +30,17 @@ const server = new ApolloServer({
         Comment,
         Like,
         Follow,
-        Message
+        Message,
+        pubSub
     }
 });
 
 const app = express();
 server.applyMiddleware({ app });
 
-app.listen({ port: 4000 }, () =>
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
+
+httpServer.listen({ port: 4000 }, () =>
     console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
 );

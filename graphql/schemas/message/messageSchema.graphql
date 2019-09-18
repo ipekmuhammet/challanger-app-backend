@@ -9,7 +9,11 @@ input ListMessagesInput {
 
 type Message {
 	id: String!
-	sender: String!
-	receiver: String!
+	sender: User!
+	receiver: User!
 	message: String!
+}
+
+type Subscription {
+	message(user_id: ID!): Message!
 }
