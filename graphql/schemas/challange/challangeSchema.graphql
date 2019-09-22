@@ -15,4 +15,6 @@ type Challange {
 	categorie_id: String!
 	title: String!
 	video: String!
+	likeCount: Int
+	commentCount: Int
 }

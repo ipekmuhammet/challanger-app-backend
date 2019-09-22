@@ -5,5 +5,7 @@ type Mutation {
 input SaveMessageInput {
 	sender: String!
 	receiver: String!
-	message: String!
+	messageText: String!
+	fileData: String
+	fileType: String
 }

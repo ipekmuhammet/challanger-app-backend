@@ -15,6 +15,13 @@ const Mutation = {
         return newUser
         //return { token: token.generate(newUser, '1h') }
     },
+    updateUser: async (source, { data }, { User }) => {
+        const user = await User.findByIdAndUpdate(data.id,{
+            ...data
+        });
+
+        return user
+    },
     signIn: async (source, { data: { username, password } }, { User }) => {
         const user = await User.findOne({ username });
         if (!user)

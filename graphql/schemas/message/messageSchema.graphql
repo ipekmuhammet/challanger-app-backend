@@ -1,3 +1,5 @@
+scalar Date
+
 type Query {
 	listMessages(data: ListMessagesInput): [Message!]!
 }
@@ -11,7 +13,10 @@ type Message {
 	id: String!
 	sender: User!
 	receiver: User!
-	message: String!
+	messageText: String!
+	fileData: String
+	fileType: String
+	createdAt: Date!
 }
 
 type Subscription {

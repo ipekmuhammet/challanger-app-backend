@@ -14,6 +14,8 @@ type Post {
 	user: User!
 	title: String
 	content: String
+	commentCount: Int
+	likeCount: Int
 	media_one: String
 	media_two: String
 	media_three: String

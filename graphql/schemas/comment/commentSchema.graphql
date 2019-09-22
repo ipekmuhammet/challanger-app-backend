@@ -3,7 +3,8 @@ type Query {
 }
 
 type Comment {
-	user_id: String!
+	id: ID!
+	user: User!
 	post_id: String!
 	comment: String!
 }

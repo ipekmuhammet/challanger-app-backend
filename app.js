@@ -2,6 +2,7 @@ const http = require('http');
 const express = require('express');
 const { ApolloServer, PubSub } = require('apollo-server-express');
 const { importSchema } = require('graphql-import');
+const bodyParser = require('body-parser');
 
 const resolvers = require('./graphql/resolvers/index');
 require('dotenv').config()
@@ -36,6 +37,7 @@ const server = new ApolloServer({
 });
 
 const app = express();
+app.use(bodyParser({limit:'50mb'}))
 server.applyMiddleware({ app });
 
 const httpServer = http.createServer(app);
