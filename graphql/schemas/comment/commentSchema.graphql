@@ -1,5 +1,9 @@
 type Query {
-	listComments: [Comment!]!
+	listComments(data: ListCommentsInput): [Comment!]!
+}
+
+input ListCommentsInput {
+	post_id: String!
 }
 
 type Comment {
@@ -7,4 +11,6 @@ type Comment {
 	user: User!
 	post_id: String!
 	comment: String!
+	likeCount: Int!
+	commentCount: Int!
 }

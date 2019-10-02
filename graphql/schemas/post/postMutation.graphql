@@ -1,5 +1,10 @@
 type Mutation {
 	savePost(data: SavePostInput): Post!
+	deletePost(data: DeletePostInput): Post!
+}
+
+input DeletePostInput {
+	id: ID!
 }
 
 input SavePostInput {

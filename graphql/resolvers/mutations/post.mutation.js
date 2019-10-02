@@ -1,11 +1,15 @@
+let post = {}
+
 const Mutation = {
     savePost: async (source, { data }, { Post }) => {
-        const post = await new Post({
-            ...data
-        }).save();
-
+        return await new Post(data).save();
+    },
+    deletePost: async (source, { data }, { Post }) => {
+        await Post.findByIdAndDelete(data.id, (error, result) => {
+            if (error) throw new Error(error)
+            post = result
+        })
         return post
-        //return { token: token.generate(newUser, '1h') }
     }
 }
 

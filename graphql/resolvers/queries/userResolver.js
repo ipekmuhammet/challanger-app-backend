@@ -30,9 +30,10 @@ const resolvers = {
             return posts
         },
         listChallanges: async (source, { data }, { Challange }) => {
-            //const challanges = []
-            const challanges = await Challange.find({}).limit(20);
-            return challanges
+            return await Challange.find({}).limit(20);
+        },
+        listComments: async (source, { data }, { Comment }) => {
+            return await Comment.find({ post_id: data.post_id }).limit(20);
         },
         listLikes: async (source, { data }, { Like }) => {
             const likes = await Like.find({ "post_id": data.post_id })
