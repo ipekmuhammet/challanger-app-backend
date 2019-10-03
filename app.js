@@ -16,6 +16,7 @@ const Comment = require('./helpers/models/CommentSchema');
 const Like = require('./helpers/models/LikeSchema');
 const Follow = require('./helpers/models/FollowSchema');
 const Message = require('./helpers/models/MessageSchema');
+const Block = require('./helpers/models/BlockSchema');
 const typeDefs = importSchema('./graphql/schema.graphql');
 
 const pubSub = new PubSub();
@@ -32,12 +33,13 @@ const server = new ApolloServer({
         Like,
         Follow,
         Message,
+        Block,
         pubSub
     }
 });
 
 const app = express();
-app.use(bodyParser({limit:'50mb'}))
+app.use(bodyParser({ limit: '50mb' }))
 server.applyMiddleware({ app });
 
 const httpServer = http.createServer(app);

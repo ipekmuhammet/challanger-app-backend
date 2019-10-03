@@ -6,6 +6,7 @@ const challangeCategorieMutation = require('./challangeCategorie.mutation');
 const messageMutation = require('./message.mutation');
 const commentMutation = require('./comment.mutation');
 const likeMutation = require('./like.mutation');
+const blockMutation = require('./block.mutation');
 
 module.exports = {
     ...userMutation,
@@ -15,5 +16,6 @@ module.exports = {
     ...challangeCategorieMutation,
     ...messageMutation,
     ...commentMutation,
-    ...likeMutation
+    ...likeMutation,
+    ...blockMutation,
 }

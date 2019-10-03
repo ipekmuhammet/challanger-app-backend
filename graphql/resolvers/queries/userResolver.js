@@ -55,7 +55,8 @@ const resolvers = {
                     { 'sender': data.chats, 'receiver': data.user_id }]
                 )
             return messages
-        }
+        },
+        listBlocks: async (source, { data }, { Block }) => await Block.find({})
     }
 };
 

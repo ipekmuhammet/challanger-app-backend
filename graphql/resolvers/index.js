@@ -4,6 +4,7 @@ const Comment = require('./queries/Comment');
 const User = require('./queries/User');
 const Follow = require('./queries/Follow');
 const Message = require('./queries/Message');
+const Block = require('./queries/Block');
 
 const userResolver = require('./queries/userResolver');
 //const postResolver = require('./queries/postResolver');
@@ -17,6 +18,7 @@ module.exports = {
     User,
     Follow,
     Message,
+    Block,
     Challange,
     Comment,
     ...userResolver,

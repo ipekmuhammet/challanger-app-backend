@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 module.exports = () => {
-    mongoose.connect(process.env.DB_HOST, { useNewUrlParser: true, useCreateIndex: true });
+    mongoose.connect(process.env.DB_HOST, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
     mongoose.connection.on('open', () => {
         console.log('Database: Connected.')
     })

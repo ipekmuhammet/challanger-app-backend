@@ -1,0 +1,8 @@
+type Query {
+	listBlocks: [Block!]!
+}
+
+type Block {
+	blocker: User!
+	blocked: User!
+}

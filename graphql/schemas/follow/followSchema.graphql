@@ -1,17 +1,18 @@
 type Query {
-	listFollows(data:ListFollowsInput): [Follow!]!
-	listFollowers(data:ListFollowersInput): [Follow!]!
+	listFollows(data: ListFollowsInput): [Follow!]!
+	listFollowers(data: ListFollowersInput): [Follow!]!
 }
 
 type Follow {
 	follower: User!
 	followed: User!
+	follow_status: Int!
 }
 
 input ListFollowsInput {
-	follower:String!
+	follower: String!
 }
 
 input ListFollowersInput {
-	followed:String!
+	followed: String!
 }

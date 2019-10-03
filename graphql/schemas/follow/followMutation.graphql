@@ -1,8 +1,15 @@
 type Mutation {
-	saveFollow(data: saveFollowInput): Follow!
+	saveFollow(data: SaveFollowInput): Follow!
+	updateFollowStatus(data: UpdateFollowStatus): Follow!
 }
 
-input saveFollowInput {
-	follower: String!
-	followed: String
+input UpdateFollowStatus {
+	follower: ID!
+	followed: ID!
+	follow_status: Int!
+}
+
+input SaveFollowInput {
+	follower: ID!
+	followed: ID!
 }
