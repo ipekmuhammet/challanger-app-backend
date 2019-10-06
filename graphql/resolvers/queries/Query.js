@@ -1,10 +1,16 @@
-const resolvers = {
+const jwt = require('jsonwebtoken')
+
+const Query = {
     Query: {
         listUsers: async (source, { data }, { User }) => {
             let users = [];
             if (data.key)
                 users = await User.find({ "username": { "$regex": data.key, "$options": "i" } }).limit(20)
             return users
+        },
+        getActiveUser: async (source, { data }, { User }) => {
+            let { username } = await jwt.verify(data.token, process.env.SECRET_KEY)
+            return await User.findOne({ username })
         },
         listPosts: async (source, { data }, { Post, Follow }) => {
             let posts = [];
@@ -60,4 +66,4 @@ const resolvers = {
     }
 };
 
-module.exports = resolvers
+module.exports = Query

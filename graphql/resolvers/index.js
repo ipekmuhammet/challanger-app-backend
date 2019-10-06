@@ -6,7 +6,7 @@ const Follow = require('./queries/Follow');
 const Message = require('./queries/Message');
 const Block = require('./queries/Block');
 
-const userResolver = require('./queries/userResolver');
+const Query = require('./queries/Query');
 //const postResolver = require('./queries/postResolver');
 
 const Subscription = require('./subscriptions/index');
@@ -21,8 +21,7 @@ module.exports = {
     Block,
     Challange,
     Comment,
-    ...userResolver,
-    //...postResolver,
+    ...Query,
     Mutation,
     Subscription
 }

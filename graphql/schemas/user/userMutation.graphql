@@ -1,9 +1,13 @@
 scalar Date
 
 type Mutation {
-	saveUser(data: CreateUserInput): User!
+	saveUser(data: CreateUserInput): Token!
 	updateUser(data: UpdateUserInput): User!
-	signIn(data: SignInInput): User!
+	signIn(data: SignInInput): Token!
+}
+
+type Token {
+	token: String!
 }
 
 input SignInInput {

@@ -1,9 +1,14 @@
 type Query {
 	listUsers(data: ListUsersInput): [User!]!
+	getActiveUser(data: GetActiveUserInput): User!
 }
 
 input ListUsersInput {
 	key: String
+}
+
+input GetActiveUserInput {
+	token:String
 }
 
 type User {
