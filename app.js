@@ -3,6 +3,7 @@ const express = require('express')
 const { ApolloServer, PubSub } = require('apollo-server-express')
 const { importSchema } = require('graphql-import')
 const bodyParser = require('body-parser')
+const helmet = require('helmet')
 
 const resolvers = require('./graphql/resolvers/index')
 require('dotenv').config()
@@ -39,7 +40,9 @@ const server = new ApolloServer({
 })
 
 const app = express()
-app.use(bodyParser({ limit: '50mb' }))
+app.use(helmet())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 /*
 app.use(async (req, res, next) => {
     const token = req.headers['authorization']

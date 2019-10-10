@@ -19,6 +19,15 @@ const Mutation = {
 
         return { token: token.generate(user, '84h') }
     },
+    updatePassword: async (source, { data: { id, oldPassword, newPassword } }, { User }) => {
+        const user = await User.findById(id)
+        const isOldPasswordCorrect = await bcrypt.compare(oldPassword, user.password)
+        if (isOldPasswordCorrect) {
+            user.password = newPassword
+            return await user.save()
+        }
+        throw new Error('Old password is not correct.')
+    },
     updateUser: async (source, { data }, { User }) => await User.findByIdAndUpdate(data.id, data)
 }
 
