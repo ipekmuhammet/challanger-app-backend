@@ -18,4 +18,4 @@ const Challange = {
     }
 }
 
-module.exports = Challange;
+module.exports = Challange

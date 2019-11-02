@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const challangeSchema = new Schema({
     user_id: { type: String, required: true },
@@ -12,4 +12,4 @@ const challangeSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('Challange', challangeSchema);
+module.exports = mongoose.model('Challange', challangeSchema)

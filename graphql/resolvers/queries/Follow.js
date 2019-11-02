@@ -7,4 +7,4 @@ const Follow = {
     },
 }
 
-module.exports = Follow;
+module.exports = Follow

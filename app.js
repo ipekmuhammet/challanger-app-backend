@@ -4,6 +4,7 @@ const { ApolloServer, PubSub } = require('apollo-server-express')
 const { importSchema } = require('graphql-import')
 const bodyParser = require('body-parser')
 const helmet = require('helmet')
+const cors = require('cors')
 
 const resolvers = require('./graphql/resolvers/index')
 require('dotenv').config()
@@ -39,7 +40,11 @@ const server = new ApolloServer({
     }
 })
 
+const port = process.env.PORT || 4000
+
 const app = express()
+
+app.use(cors())
 app.use(helmet())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
@@ -61,6 +66,6 @@ server.applyMiddleware({ app })
 const httpServer = http.createServer(app)
 server.installSubscriptionHandlers(httpServer)
 
-httpServer.listen({ port: 4000 }, () =>
-    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+httpServer.listen({ port }, () =>
+    console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
 )

@@ -1,5 +1,9 @@
 type Query {
-	listBlocks: [Block!]!
+	listBlocks(data:ListBlocksInput): [Block!]!
+}
+
+input ListBlocksInput {
+	blocker:ID!
 }
 
 type Block {

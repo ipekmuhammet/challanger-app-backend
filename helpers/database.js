@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 module.exports = () => {
-    mongoose.connect(process.env.DB_HOST, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
+    mongoose.connect(process.env.DB_HOST, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
     mongoose.connection.on('open', () => {
         console.log('Database: Connected.')
     })
@@ -9,5 +9,5 @@ module.exports = () => {
         console.log('Database: Error', error)
     })
 
-    mongoose.Promise = global.Promise;
+    mongoose.Promise = global.Promise
 }

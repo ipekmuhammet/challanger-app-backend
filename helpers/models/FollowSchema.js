@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const follow_status = {
     SHOW_POSTS: 1,
@@ -12,4 +12,4 @@ const followSchema = new Schema({
     follow_status: { type: Number, required: true, default: follow_status.SHOW_POSTS }
 })
 
-module.exports = mongoose.model('Follow', followSchema);
+module.exports = mongoose.model('Follow', followSchema)

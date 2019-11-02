@@ -2,9 +2,9 @@ const Mutation = {
     saveComment: async (source, { data }, { Comment }) => {
         const comment = await new Comment({
             ...data
-        }).save();
+        }).save()
         return comment
     }
 }
 
-module.exports = Mutation;
+module.exports = Mutation

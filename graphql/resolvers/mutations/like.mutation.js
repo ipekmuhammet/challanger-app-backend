@@ -8,7 +8,7 @@ const Mutation = {
                     like = result
                     result.deleteOne()
                 }
-                else like = await new Like(data).save();
+                else like = await new Like(data).save()
             }
             return like
         })

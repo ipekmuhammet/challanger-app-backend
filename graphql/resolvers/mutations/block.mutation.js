@@ -3,4 +3,4 @@ const Mutation = {
     deleteBlock: async (source, { data }, { Block }) => await Block.findByIdAndDelete(data.id)
 }
 
-module.exports = Mutation;
+module.exports = Mutation

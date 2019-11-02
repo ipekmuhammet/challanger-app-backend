@@ -18,4 +18,4 @@ const Comment = {
     }
 }
 
-module.exports = Comment;
+module.exports = Comment

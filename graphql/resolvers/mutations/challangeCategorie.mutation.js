@@ -2,10 +2,10 @@ const Mutation = {
     saveChallangeCategorie: async (source, { data }, { ChallangeCategorie }) => {
         const challangeCategorie = await new ChallangeCategorie({
             ...data
-        }).save();
+        }).save()
 
         return challangeCategorie
     }
 }
 
-module.exports = Mutation;
+module.exports = Mutation

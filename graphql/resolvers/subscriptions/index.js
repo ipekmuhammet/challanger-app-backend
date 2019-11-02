@@ -1,4 +1,4 @@
-const message = require('./message.subscription');
+const message = require('./message.subscription')
 
 module.exports = {
     ...message
