@@ -48,6 +48,7 @@ app.use(cors())
 app.use(helmet())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
+
 /*
 app.use(async (req, res, next) => {
     const token = req.headers['authorization']
@@ -66,6 +67,4 @@ server.applyMiddleware({ app })
 const httpServer = http.createServer(app)
 server.installSubscriptionHandlers(httpServer)
 
-httpServer.listen({ port }, () =>
-    console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
-)
+httpServer.listen({ port }, () => console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`))

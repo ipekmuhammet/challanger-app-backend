@@ -1,10 +1,4 @@
-const Block = {
-    blocker: async (source, args, { User }) => {
-        return await User.findById(source.blocker)
-    },
-    blocked: async (source, args, { User }) => {
-        return await User.findById(source.blocked)
-    }
+module.exports = {
+    blocker: async ({ blocker }, args, { User }) => await User.findById(blocker),
+    blocked: async ({ blocked }, args, { User }) => await User.findById(blocked)
 }
-
-module.exports = Block

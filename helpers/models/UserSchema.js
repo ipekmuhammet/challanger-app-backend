@@ -31,10 +31,8 @@ const userSchema = new Schema({
     }
 })
 
-userSchema.pre('save', function (next) {
-    if (!this.isModified('password')) {
-        return next()
-    }
+userSchema.pre('save', function (next) {//Don't change to arrow function..
+    if (!this.isModified('password')) next()//return next()
 
     bcrypt.hash(this.password, 10).then(hash => {
         this.password = hash

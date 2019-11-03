@@ -1,7 +1,7 @@
 scalar Date
 
 type Query {
-	listMessages(data: ListMessagesInput): [Message!]!
+	listMessages(data: ListMessagesInput): [MessageSource!]!
 }
 
 input ListMessagesInput {
@@ -9,10 +9,15 @@ input ListMessagesInput {
 	chats: [String!]
 }
 
+type MessageSource {
+	id: ID!
+	user: User!
+	messages: [Message!]
+}
+
 type Message {
-	id: String!
-	sender: User!
-	receiver: User!
+	sender:ID!
+	receiver:ID!
 	messageText: String!
 	fileData: String
 	fileType: String

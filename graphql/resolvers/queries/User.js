@@ -1,7 +1,3 @@
-const User = {
-    posts: async (source, args, { Post }) => {
-        return await Post.find({ "user_id": source.id })
-    }
+module.exports = {
+    posts: async ({ id }, args, { Post }) => await Post.find({ 'user_id': id })
 }
-
-module.exports = User

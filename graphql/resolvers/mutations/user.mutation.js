@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const token = require('../../../helpers/token')
 
-const Mutation = {
+module.exports = {
     saveUser: async (source, { data }, { User }) => {
         const isUserExists = await User.findOne({ username: data.username })
 
@@ -30,5 +30,3 @@ const Mutation = {
     },
     updateUser: async (source, { data }, { User }) => await User.findByIdAndUpdate(data.id, data)
 }
-
-module.exports = Mutation

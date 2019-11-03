@@ -1,21 +1,9 @@
-const Challange = {
-    user: async (source, args, { User }) => {
-        return await User.findById(source.user_id)
-    },
-    commentCount: async (source, args, { Comment }) => {
-        return await Comment.countDocuments({ post_id: source.id }, (error, count) => {
-            if (!error)
-                return count
-            return 0
-        })
-    },
-    likeCount: async (source, args, { Like }) => {
-        return await Like.countDocuments({ post_id: source.id }, (error, count) => {
-            if (!error)
-                return count
-            return 0
-        })
-    }
+module.exports = {
+    user: async ({ user_id }, args, { User }) => await User.findById(user_id),
+    commentCount: async ({ id }, args, { Comment }) => (
+        await Comment.countDocuments({ post_id: id }, (error, count) => (!error ? count : 0))
+    ),
+    likeCount: async ({ id }, args, { Like }) => (
+        await Like.countDocuments({ post_id: id }, (error, count) => (!error ? count : 0))
+    )
 }
-
-module.exports = Challange

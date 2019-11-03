@@ -1,10 +1,4 @@
-const Follow = {
-    follower: async (source, args, { User }) => {
-        return await User.findById(source.follower)
-    },
-    followed: async (source, args, { User }) => {
-        return await User.findById(source.followed)
-    },
+module.exports = {
+    follower: async ({ follower }, args, { User }) => await User.findById(follower),
+    followed: async ({ followed }, args, { User }) => await User.findById(followed)
 }
-
-module.exports = Follow

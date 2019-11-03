@@ -1,10 +1,6 @@
-const Message = {
-    sender: async (source, args, { User }) => {
-        return await User.findById(source.sender)
-    },
-    receiver: async (source, args, { User }) => {
-        return await User.findById(source.receiver)
-    }
+module.exports = {
+    user: async (source, args, { User }) => source,
+    messages: async (source, args, { Message }) => await Message.find({})
+    //Muhammet - this is a sub resolver
+    //find messages {sender:rootResolver.user_id,receiver:source._id} || {sender:source._id,receiver:rootResolver.user_id}
 }
-
-module.exports = Message

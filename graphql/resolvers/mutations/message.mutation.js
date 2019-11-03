@@ -1,9 +1,9 @@
-const Mutation = {
+let message
+
+module.exports = {
     saveMessage: async (source, { data }, { Message, pubSub }) => {
-        const message = await new Message(data).save()
+        message = await new Message(data).save()
         pubSub.publish('message', { message })
         return message
     }
 }
-
-module.exports = Mutation

@@ -7,10 +7,7 @@ const messageSchema = new Schema({
     messageText: { type: String, required: true },
     fileData: { type: String },
     fileType: { type: String },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+    createdAt: { type: Date, default: Date.now }
 })
 
 module.exports = mongoose.model('Message', messageSchema)

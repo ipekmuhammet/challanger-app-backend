@@ -3,7 +3,7 @@ const Challange = require('./queries/Challange')
 const Comment = require('./queries/Comment')
 const User = require('./queries/User')
 const Follow = require('./queries/Follow')
-const Message = require('./queries/Message')
+const MessageSource = require('./queries/Message')
 const Block = require('./queries/Block')
 
 const Query = require('./queries/Query')
@@ -17,7 +17,7 @@ module.exports = {
     Post,
     User,
     Follow,
-    Message,
+    MessageSource,
     Block,
     Challange,
     Comment,

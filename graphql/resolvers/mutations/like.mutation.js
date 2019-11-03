@@ -1,6 +1,6 @@
-let like = {}
+let like
 
-const Mutation = {
+module.exports = {
     saveLike: async (source, { data }, { Like }) => {
         await Like.findOne({ post_id: data.post_id, user_id: data.user_id }, async (error, result) => {
             if (!error) {
@@ -14,5 +14,3 @@ const Mutation = {
         })
     }
 }
-
-module.exports = Mutation

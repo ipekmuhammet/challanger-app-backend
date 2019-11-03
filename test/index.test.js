@@ -10,11 +10,11 @@ describe('GraphQL', () => {
     it('listBlocks', (done) => {
         request.post('/graphql')
             .send({
-                query: `{ 
-                    listBlocks {
-                        id
+                query: `query{
+                    listBlocks(data: { blocker: "5d749a873384ee2c64518013" }) {
+                      id
                     }
-                }` })
+            }` })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
