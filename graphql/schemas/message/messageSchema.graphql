@@ -15,6 +15,12 @@ type MessageSource {
 	messages: [Message!]
 }
 
+type MessageSourceForSubscription {
+	id: ID!
+	user: User!
+	messages: [Message!]
+}
+
 type Message {
 	sender:ID!
 	receiver:ID!
@@ -25,5 +31,5 @@ type Message {
 }
 
 type Subscription {
-	message(user_id: ID!): Message!
+	message(user_id: ID!): MessageSourceForSubscription!
 }
