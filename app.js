@@ -6,9 +6,10 @@ const bodyParser = require('body-parser')
 const helmet = require('helmet')
 const cors = require('cors')
 
-const resolvers = require('./graphql/resolvers/index')
 require('dotenv').config()
 require('./helpers/database')()
+
+const resolvers = require('./graphql/resolvers/index')
 
 const User = require('./helpers/models/UserSchema')
 const Post = require('./helpers/models/PostSchema')
@@ -18,6 +19,7 @@ const Comment = require('./helpers/models/CommentSchema')
 const Like = require('./helpers/models/LikeSchema')
 const Follow = require('./helpers/models/FollowSchema')
 const Message = require('./helpers/models/MessageSchema')
+const Chat = require('./helpers/models/ChatSchema')
 const Block = require('./helpers/models/BlockSchema')
 const typeDefs = importSchema('./graphql/schema.graphql')
 
@@ -35,6 +37,7 @@ const server = new ApolloServer({
         Like,
         Follow,
         Message,
+        Chat,
         Block,
         pubSub
     }

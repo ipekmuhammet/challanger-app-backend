@@ -1,5 +1,9 @@
 const jwt = require('jsonwebtoken')
-let follows = [], username = ''
+let follows = [], chats = [], verifiedUser, user
+
+const verifyToken = async (token) => (//Muhammet ? if not ?
+    await jwt.verify(token, process.env.SECRET_KEY)
+)
 
 module.exports = {
     listUsers: async (source, { data: { key } }, { User }) => (
@@ -7,8 +11,8 @@ module.exports = {
     ),
 
     getActiveUser: async (source, { data }, { User }) => {
-        username = await jwt.verify(data.token, process.env.SECRET_KEY).username
-        return await User.findOne({ username })
+        verifiedUser = await verifyToken(data.token)
+        return await User.findOne({ username: verifiedUser.username })
     },
 
     listPosts: async (source, { data: { target_id, user_id, key, latest } }, { Post, Follow }) => {
@@ -34,7 +38,17 @@ module.exports = {
 
     listFollows: async (source, { data: { follower } }, { Follow }) => await Follow.find({ follower }).limit(20),
 
-    listMessages: async (source, { data: { user_id, chats } }, { User }, info) => await User.where('_id').in(chats).find(),
+    listMessages: async (source, { data: { user_id } }, { User, Chat }, info) => {
+        verifiedUser = await verifyToken(user_id)
+        user = await User.findOne({ username: verifiedUser.username })
+        chats = await Chat
+            .find({ user_id: user._id })
+            .select({ _id: 0, target_id: 1 })
+
+        return await User.where('_id').in(await chats.map(chat => chat.target_id)).find()
+    },
+
+    listChats: async (source, { data: { user_id } }, { Chat }, info) => await Chat.find({ user_id }),
 
     listBlocks: async (source, { data: { blocker } }, { Block }) => await Block.find({ blocker })
 }

@@ -6,7 +6,6 @@ type Query {
 
 input ListMessagesInput {
 	user_id: String!
-	chats: [String!]
 }
 
 type MessageSource {

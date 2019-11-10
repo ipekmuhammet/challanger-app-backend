@@ -1,0 +1,12 @@
+type Query {
+	listChats(data: ListChatsInput): [Chat!]
+}
+
+input ListChatsInput {
+	user_id: String!
+}
+
+type Chat {
+	user_id: String!
+	target_id: String!
+}

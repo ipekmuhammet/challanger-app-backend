@@ -1,0 +1,9 @@
+type Mutation {
+	openChat(data: ChatInput): Chat!
+	closeChat(data: ChatInput): Chat!
+}
+
+input ChatInput {
+	user_id: String!
+	target_id: String!
+}

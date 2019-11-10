@@ -23,5 +23,8 @@
 # import Mutation from './schemas/message/messageMutation.graphql'
 # import Subscription from './schemas/message/messageSchema.graphql'
 
+# import Query from './schemas/chat/chatSchema.graphql'
+# import Mutation from './schemas/chat/chatMutation.graphql'
+
 # import Query from './schemas/block/blockSchema.graphql'
 # import Mutation from './schemas/block/blockMutation.graphql'
