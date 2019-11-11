@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 const bcrypt = require('bcrypt')
+const mongoosastic = require('mongoosastic')
+
+const Schema = mongoose.Schema
 
 const userSchema = new Schema({
     username: {
-        type: String,
+        type: String,// es_indexed: true,
         unique: true,
         required: true
     },
@@ -30,6 +32,11 @@ const userSchema = new Schema({
         default: Date.now
     }
 })
+
+userSchema.plugin(mongoosastic, {
+    host: process.env.ELASTICSEARCH_URL,
+    port: 9200
+});
 
 userSchema.pre('save', function (next) {//Don't change to arrow function..
     if (!this.isModified('password')) next()//return next()

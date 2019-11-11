@@ -1,14 +1,19 @@
 const jwt = require('jsonwebtoken')
-let follows = [], chats = [], verifiedUser, user
+let follows = [], chats = [], users = [], verifiedUser, user
 
 const verifyToken = async (token) => (//Muhammet ? if not ?
     await jwt.verify(token, process.env.SECRET_KEY)
 )
 
 module.exports = {
-    listUsers: async (source, { data: { key } }, { User }) => (
-        key ? await User.find({ username: { $regex: key, $options: 'i' } }).limit(20) : []//List top 20 famoust users // Muhammet
-    ),
+    listUsers: async (source, { data: { key } }, { User }) => {
+        await User.search({ query_string: { query: key } }, (err, results) => {
+            if (!err) users = results.hits.hits.map(hit => hit._source)
+        })
+        return users
+
+        //key ? await User.find({ username: { $regex: key, $options: 'i' } }).limit(20) : []//List top 20 famoust users // Muhammet
+    },
 
     getActiveUser: async (source, { data }, { User }) => {
         verifiedUser = await verifyToken(data.token)
