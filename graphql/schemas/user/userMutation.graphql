@@ -7,10 +7,6 @@ type Mutation {
 	signIn(data: SignInInput): Token!
 }
 
-type Token {
-	token: String!
-}
-
 input SignInInput {
 	username: String!
 	password: String!

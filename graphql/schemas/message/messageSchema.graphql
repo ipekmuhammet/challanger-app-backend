@@ -1,11 +1,7 @@
 scalar Date
 
 type Query {
-	listMessages(data: ListMessagesInput): [MessageSource!]!
-}
-
-input ListMessagesInput {
-	user_id: String!
+	listMessages: [MessageSource!]!
 }
 
 type MessageSource {

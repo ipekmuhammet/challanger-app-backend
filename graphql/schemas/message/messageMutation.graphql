@@ -3,7 +3,6 @@ type Mutation {
 }
 
 input SaveMessageInput {
-	sender: String!
 	receiver: String!
 	messageText: String!
 	fileData: String

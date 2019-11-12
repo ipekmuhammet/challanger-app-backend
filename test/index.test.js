@@ -68,8 +68,7 @@ describe('GraphQL', () => {
         request.post('/graphql')
             .send({
                 query: `{
-                    getActiveUser(
-                        data: { token: "${token}"} ) {
+                    getActiveUser{
                             id
                             username
                         }

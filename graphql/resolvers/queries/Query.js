@@ -1,9 +1,4 @@
-const jwt = require('jsonwebtoken')
 let follows = [], chats = [], users = [], verifiedUser, user
-
-const verifyToken = async (token) => (//Muhammet ? if not ?
-    await jwt.verify(token, process.env.SECRET_KEY)
-)
 
 module.exports = {
     listUsers: async (source, { data: { key } }, { User }) => {
@@ -11,14 +6,9 @@ module.exports = {
             if (!err) users = results.hits.hits.map(hit => hit._source)
         })
         return users
-
-        //key ? await User.find({ username: { $regex: key, $options: 'i' } }).limit(20) : []//List top 20 famoust users // Muhammet
     },
 
-    getActiveUser: async (source, { data }, { User }) => {
-        verifiedUser = await verifyToken(data.token)
-        return await User.findOne({ username: verifiedUser.username })
-    },
+    getActiveUser: async (source, args, { activeUser, User }) => await User.findOne({ username: activeUser.username }),
 
     listPosts: async (source, { data: { target_id, user_id, key, latest } }, { Post, Follow }) => {
         if (target_id) return await Post.find({ user_id: target_id })
@@ -43,14 +33,10 @@ module.exports = {
 
     listFollows: async (source, { data: { follower } }, { Follow }) => await Follow.find({ follower }).limit(20),
 
-    listMessages: async (source, { data: { user_id } }, { User, Chat }, info) => {
-        verifiedUser = await verifyToken(user_id)
-        user = await User.findOne({ username: verifiedUser.username })
-        chats = await Chat
-            .find({ user_id: user._id })
-            .select({ _id: 0, target_id: 1 })
-
-        return await User.where('_id').in(await chats.map(chat => chat.target_id)).find()
+    listMessages: async (source, args, { User, Chat, activeUser }) => {
+        chats = await Chat.find({ user_id: activeUser.id }).select({ _id: 0, target_id: 1 })
+        chats = await chats.map(chat => chat.target_id)
+        return await User.where('_id').in(chats).find()
     },
 
     listChats: async (source, { data: { user_id } }, { Chat }, info) => await Chat.find({ user_id }),
