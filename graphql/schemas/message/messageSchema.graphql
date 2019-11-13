@@ -26,5 +26,5 @@ type Message {
 }
 
 type Subscription {
-	message(user_id: ID!): MessageSourceForSubscription!
+	message: MessageSourceForSubscription!
 }

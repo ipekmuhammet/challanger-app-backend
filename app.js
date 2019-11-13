@@ -33,7 +33,24 @@ let token, activeUser
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }) => {
+    subscriptions: {
+        onConnect: (connectionParams, webSocket) => {
+            if (connectionParams.authorization) {
+                try {
+                    return {
+                        activeUser: jwt.verify(connectionParams.authorization, process.env.SECRET_KEY)
+                    }
+                } catch (error) {
+                    throw new Error('Unauthorized')
+                }
+            }
+            throw new Error('Missing auth token!')
+        },
+    },
+    context: ({ req, connection }) => {
+        if (connection) activeUser = connection.context.activeUser
+        else if (req) activeUser = req.activeUser
+
         return {
             User,
             Post,
@@ -46,7 +63,7 @@ const server = new ApolloServer({
             Chat,
             Block,
             pubSub,
-            activeUser: req ? req.activeUser : null
+            activeUser
         }
     }
 })
@@ -58,13 +75,12 @@ app.use(helmet())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 
-app.use(async (req, res, next) => {
+app.use((req, res, next) => {
     //token = req.headers.authorization
     token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYzgwNTYyNzIyY2YxMmJjNGUxN2I3ZiIsInVzZXJuYW1lIjoid2ViYiIsImlhdCI6MTU3MzU4MzU5MiwiZXhwIjoxNTczODg1OTkyfQ.X-eObs8fnpMnd-DLDKIWythGBdOfTa45i4mlWXPUynY'
     if (token && token != 'null') {
         try {
-            activeUser = await jwt.verify(token, process.env.SECRET_KEY)
-            req.activeUser = activeUser
+            req.activeUser = jwt.verify(token, process.env.SECRET_KEY)
             next()
         } catch (error) {
             res.status(401).end('Unauthorized')
