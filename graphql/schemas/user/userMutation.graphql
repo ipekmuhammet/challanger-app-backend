@@ -13,7 +13,6 @@ input SignInInput {
 }
 
 input UpdatePasswordInput {
-	id: ID!
 	oldPassword: String!
 	newPassword: String!
 }

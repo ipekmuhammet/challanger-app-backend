@@ -1,9 +1,5 @@
 type Query {
-	listChats(data: ListChatsInput): [Chat!]
-}
-
-input ListChatsInput {
-	user_id: String!
+	listChats: [Chat!]
 }
 
 type Chat {

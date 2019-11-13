@@ -23,6 +23,7 @@ module.exports = {
             .sort({ createdAt: 'descending' })
         return []
     },
+    
     listChallanges: async (source, { data }, { Challange }) => await Challange.find().limit(20),
 
     listComments: async (source, { data: { post_id } }, { Comment }) => await Comment.find({ post_id }).limit(20),
@@ -39,7 +40,7 @@ module.exports = {
         return await User.where('_id').in(chats).find()
     },
 
-    listChats: async (source, { data: { user_id } }, { Chat }, info) => await Chat.find({ user_id }),
+    listChats: async (source, args, { Chat, activeUser }, info) => await Chat.find({ user_id: activeUser.id }),
 
-    listBlocks: async (source, { data: { blocker } }, { Block }) => await Block.find({ blocker })
+    listBlocks: async (source, args, { Block, activeUser }) => await Block.find({ blocker: activeUser.id })
 }
