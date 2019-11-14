@@ -1,13 +1,8 @@
 type Mutation {
-	saveBlock(data: SaveBlockInput): Block!
-	deleteBlock(data: DeleteBlockInput): Block!
+	saveBlock(data: BlockInput): Block!
+	deleteBlock(data: BlockInput): Block!
 }
 
-input DeleteBlockInput {
-	id: ID!
-}
-
-input SaveBlockInput {
-	blocker: ID!
+input BlockInput {
 	blocked: ID!
 }

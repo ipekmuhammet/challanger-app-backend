@@ -59,11 +59,51 @@ query{
     }
 }`
 
+const saveBlockQuery = `
+mutation {
+    saveBlock(data: { blocked: "5d749a873384ee2c64518013" }) {
+        blocker {
+            username
+        }
+        blocked {
+            username
+        }
+    }
+}`
+
+const deleteBlockQuery = `
+mutation {
+    deleteBlock(data: { blocked: "5d749a873384ee2c64518013" }) {
+        blocker {
+            username
+        }
+        blocked {
+            username
+        }
+    }
+}`
+
 //Chat
 const listChatsQuery = `
 query{
     listChats{
         user_id
+    }
+}`
+
+const openChatQuery = `
+mutation {
+    openChat(data: { target_id: "5d749a873384ee2c64518013" }) {
+        user_id
+        target_id
+    }
+}`
+
+const closeChatQuery = `
+mutation {
+    closeChat(data: { target_id: "5d749a873384ee2c64518013" }) {
+        user_id
+        target_id
     }
 }`
 
@@ -174,6 +214,30 @@ describe('Blocks', () => {
                 done()
             })
     })
+
+    it('saveBlock', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: saveBlockQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveBlock.should.be.a('object')
+                done()
+            })
+    })
+
+    it('deleteBlock', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: deleteBlockQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.deleteBlock.should.be.a('object')
+                done()
+            })
+    })
 })
 
 describe('Chats', () => {
@@ -185,6 +249,30 @@ describe('Chats', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.listChats.should.be.a('array')
+                done()
+            })
+    })
+
+    it('openChat', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: openChatQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.openChat.should.be.a('object')
+                done()
+            })
+    })
+
+    it('closeChat', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: closeChatQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.closeChat.should.be.a('object')
                 done()
             })
     })

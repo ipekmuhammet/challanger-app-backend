@@ -10,9 +10,9 @@ module.exports = {
         if (isUserExists) throw new Error('User already exists.')
         user = await new User(data).save()
 
-        user.on('es-indexed', (err) => {
-            if (err) throw err; console.log('user indexed');
-        });
+        //user.on('es-indexed', (err) => {
+        //    if (err) throw err; console.log('user indexed')
+        //})
 
         return { token: token.generate(user, '84h') }
     },
