@@ -3,6 +3,5 @@ type Mutation {
 }
 
 input SaveLikeInput {
-	user_id: String!
 	post_id: String!
 }

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const mongoosastic = require('mongoosastic')
+
 const Schema = mongoose.Schema
 
 const postSchema = new Schema({
@@ -14,6 +16,11 @@ const postSchema = new Schema({
         type: Date,
         default: Date.now
     }
+})
+
+postSchema.plugin(mongoosastic, {
+    host: process.env.ELASTICSEARCH_URL,
+    port: 9200
 })
 
 module.exports = mongoose.model('Post', postSchema)

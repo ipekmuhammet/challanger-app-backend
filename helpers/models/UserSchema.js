@@ -36,7 +36,7 @@ const userSchema = new Schema({
 userSchema.plugin(mongoosastic, {
     host: process.env.ELASTICSEARCH_URL,
     port: 9200
-});
+})
 
 userSchema.pre('save', function (next) {//Don't change to arrow function..
     if (!this.isModified('password')) next()//return next()

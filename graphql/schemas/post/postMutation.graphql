@@ -8,7 +8,6 @@ input DeletePostInput {
 }
 
 input SavePostInput {
-	user_id: String!
 	title: String
 	content: String
 	media_one: String

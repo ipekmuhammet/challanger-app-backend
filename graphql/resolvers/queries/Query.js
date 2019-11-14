@@ -1,4 +1,7 @@
-let follows = [], chats = [], users = [], verifiedUser, user
+let follows = [],
+    chats = [],
+    posts = [],
+    users = []
 
 module.exports = {
     listUsers: async (source, { data: { key } }, { User }) => {
@@ -16,14 +19,29 @@ module.exports = {
             follows = await Follow.find({ follower: user_id }).map(follow => follow = follow[0].followed)//Muhammet
             return await Post.where('user_id').in(follows).limit(20).find()
         }
-        else if (key) return await Post.find({ content: { $regex: key, $options: 'i' } }).limit(20)
-        else if (latest) return await Post
-            .find({ content: { $regex: key, $options: 'i' } })
-            .limit(20)
-            .sort({ createdAt: 'descending' })
+        else if (key) {
+            await Post.search({ query_string: { query: key } }, (err, results) => {
+                if (!err) posts = results.hits.hits.map(hit => hit._source)
+            })
+            return posts
+        }
+
+        else if (latest) {
+            await Post.search({ query_string: { query: key } }, (err, results) => {
+                if (!err) posts = results.hits.hits.map(hit => hit._source)
+            })
+            return posts
+
+            /*
+            return await Post
+                .find({ content: { $regex: key, $options: 'i' } })
+                .limit(20)
+                .sort({ createdAt: 'descending' })
+            */
+        }
         return []
     },
-    
+
     listChallanges: async (source, { data }, { Challange }) => await Challange.find().limit(20),
 
     listComments: async (source, { data: { post_id } }, { Comment }) => await Comment.find({ post_id }).limit(20),

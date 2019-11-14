@@ -67,6 +67,37 @@ query{
     }
 }`
 
+//Post
+const savePostQuery = `
+mutation {
+    savePost(data: { title: "testPost" }) {
+        id
+        user {
+            username
+        }
+    }
+}
+`
+
+//Like
+const saveLikeQuery = `
+mutation {
+    saveLike(data: { post_id:"5dcd968e0ab655228073063b" }) {
+        user_id
+        post_id
+    }
+}
+`
+
+const listLikesQuery = `
+query {
+    listLikes(data: { post_id: "5dcd968e0ab655228073063b" }) {
+        user_id
+        post_id
+    }
+  }
+`
+
 describe('Users', () => {
     it('createUser', (done) => {
         request.post('/graphql')
@@ -154,6 +185,46 @@ describe('Chats', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.listChats.should.be.a('array')
+                done()
+            })
+    })
+})
+
+describe('Posts', () => {
+    it('savePost', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: savePostQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.savePost.should.be.a('object')
+                done()
+            })
+    })
+})
+
+describe('Likes', () => {
+    it('saveLike', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: saveLikeQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveLike.should.be.a('object')
+                done()
+            })
+    })
+
+    it('listLikes', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: listLikesQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listLikes.should.be.a('array')
                 done()
             })
     })
