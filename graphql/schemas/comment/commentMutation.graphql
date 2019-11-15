@@ -1,9 +1,13 @@
 type Mutation {
 	saveComment(data: SaveCommentInput): Comment!
+	deleteComment(data: deleteCommentInput): Comment
 }
 
 input SaveCommentInput {
-	user_id: String!
 	post_id: String!
 	comment: String!
+}
+
+input deleteCommentInput {
+	commentId: ID!
 }

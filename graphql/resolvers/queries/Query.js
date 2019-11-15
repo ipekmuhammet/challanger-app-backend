@@ -44,6 +44,8 @@ module.exports = {
 
     listChallanges: async (source, { data }, { Challange }) => await Challange.find().limit(20),
 
+    listChallangeCategories: async (source, { data }, { ChallangeCategorie }) => await ChallangeCategorie.find().limit(20),
+
     listComments: async (source, { data: { post_id } }, { Comment }) => await Comment.find({ post_id }).limit(20),
 
     listLikes: async (source, { data: { post_id } }, { Like }) => await Like.find({ post_id }).limit(20),

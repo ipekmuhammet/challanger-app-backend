@@ -4,12 +4,10 @@ type Mutation {
 }
 
 input UpdateFollowStatus {
-	follower: ID!
 	followed: ID!
 	follow_status: Int!
 }
 
 input SaveFollowInput {
-	follower: ID!
 	followed: ID!
 }

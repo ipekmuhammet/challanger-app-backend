@@ -1,6 +1,6 @@
 type Mutation {
 	saveBlock(data: BlockInput): Block!
-	deleteBlock(data: BlockInput): Block!
+	deleteBlock(data: BlockInput): Block
 }
 
 input BlockInput {

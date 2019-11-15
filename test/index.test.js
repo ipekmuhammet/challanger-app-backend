@@ -119,6 +119,30 @@ mutation {
 }
 `
 
+const deletePostQuery = `
+mutation {
+    deletePost(data: { id: "" }) {
+        id
+        user {
+            username
+        }
+        title
+    }
+}
+`
+
+const listPostsByUserIdQuery = `
+query {
+    listPosts(data: { user_id: "5d749a873384ee2c64518013" }) {
+        id
+        user {
+            username
+        }
+        title
+    }
+}
+`
+
 //Like
 const saveLikeQuery = `
 mutation {
@@ -136,6 +160,169 @@ query {
         post_id
     }
   }
+`
+
+//Challange
+
+const listChallangesByUserIdQuery = `
+query {
+    listChallanges(data: { user_id: "5d749a873384ee2c64518013" }) {
+        user {
+            username
+        }
+    }
+}
+`
+
+const saveChallangeQuery = `
+mutation {
+    saveChallange(
+        data: {
+        categorie_id: "category1"
+        title: "title"
+        video: "videoo"
+    }) {
+        user {
+            username
+        }
+    }
+}
+`
+
+//ChallangeCategorie
+
+const listChallangeCategorieQuery = `
+query {
+    listChallangeCategories {
+        name
+    }
+}
+`
+
+const saveChallangeCategorieQuery = `
+mutation {
+    saveChallangeCategorie(data: {name:"deneme categorie"}) {
+        name
+    }
+}
+`
+
+//Comment
+
+const listCommentsQuery = `
+query {
+    listComments(data: { post_id: "5dcd968e0ab655228073063b" }) {
+        id
+        user {
+            username
+        }
+    }
+}
+`
+
+const saveCommentQuery = `
+mutation {
+    saveComment(data: { post_id: "5dcd968e0ab655228073063b", comment: "denemeComment" }) {
+        id
+        user {
+            username
+        }
+    }
+}
+`
+
+const deleteCommentQuery = `
+mutation {
+    deleteComment(data: { commentId: ""}) {
+        id
+        user {
+            username
+        }
+    }
+}
+`
+
+//Follow
+
+const saveFollowQuery = `
+mutation {
+    saveFollow(data: { followed: "5d749a873384ee2c64518013" }) {
+        follower {
+            username
+        }
+        followed {
+            username
+        }
+        follow_status
+    }
+}
+`
+
+const updateFollowStatusQuery = `
+mutation {
+    updateFollowStatus(data: { followed: "5d749a873384ee2c64518013" ,follow_status: 0}) {
+        follower {
+            username
+        }
+        followed {
+            username
+        }
+        follow_status
+    }
+}
+`
+
+const listFollowsQuery = `
+query {
+    listFollows(data: { follower: "5d749a873384ee2c64518013" }) {
+        follower {
+            username
+        }
+        followed {
+            username
+        }
+        follow_status
+    }
+}
+`
+
+const listFollowersQuery = `
+query {
+    listFollowers(data: { followed: "5d749a873384ee2c64518013" }) {
+        follower {
+            username
+        }
+        followed {
+            username
+        }
+        follow_status
+    }
+  }
+`
+
+//Message
+
+const saveMessageQuery = `
+mutation {
+    saveMessage(data: { receiver: "5d749a873384ee2c64518013", messageText: "test message" }){
+        sender
+        receiver
+        messageText
+    }
+}
+`
+
+const listMessagesQuery = `
+query {
+    listMessages {
+        user {
+            username
+        }
+        messages {
+            messageText
+        }
+    }
+}
 `
 
 describe('Users', () => {
@@ -197,6 +384,58 @@ describe('Users', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.listUsers.should.be.a('array')
+                done()
+            })
+    })
+})
+
+describe('Challanges', () => {
+    it('listChallanges By User Id', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: listChallangesByUserIdQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listChallanges.should.be.a('array')
+                done()
+            })
+    })
+
+    it('saveChallange', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: saveChallangeQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveChallange.should.be.a('object')
+                done()
+            })
+    })
+})
+
+describe('ChallangeCategories', () => {
+    it('listChallangeCategories', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: listChallangeCategorieQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listChallangeCategories.should.be.a('array')
+                done()
+            })
+    })
+
+    it('saveChallangeCategorie', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: saveChallangeCategorieQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveChallangeCategorie.should.be.a('object')
                 done()
             })
     })
@@ -278,6 +517,94 @@ describe('Chats', () => {
     })
 })
 
+describe('Comments', async () => {
+    it('listComments', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: listCommentsQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listComments.should.be.a('array')
+                done()
+            })
+    })
+
+    it('saveComment', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: saveCommentQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveComment.should.be.a('object')
+                done()
+            })
+    })
+
+    it('deleteComment', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: deleteCommentQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.should.be.a('object')
+                done()
+            })
+    })
+})
+
+describe('Comments', async () => {
+    it('saveFollow', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: saveFollowQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveFollow.should.be.a('object')
+                done()
+            })
+    })
+
+    it('updateFollowStatus', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: updateFollowStatusQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.updateFollowStatus.should.be.a('object')
+                done()
+            })
+    })
+
+    it('listFollows', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: listFollowsQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listFollows.should.be.a('array')
+                done()
+            })
+    })
+
+    it('listFollowers', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: listFollowersQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listFollowers.should.be.a('array')
+                done()
+            })
+    })
+})
+
 describe('Posts', () => {
     it('savePost', (done) => {
         request.post('/graphql')
@@ -287,6 +614,30 @@ describe('Posts', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.savePost.should.be.a('object')
+                done()
+            })
+    })
+
+    it('deletePost', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: deletePostQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.should.be.a('object')
+                done()
+            })
+    })
+
+    it('listPosts By User Id', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: listPostsByUserIdQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listPosts.should.be.a('array')
                 done()
             })
     })
@@ -313,6 +664,32 @@ describe('Likes', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.listLikes.should.be.a('array')
+                done()
+            })
+    })
+})
+
+describe('Messages', () => {
+    it('saveMessage', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: saveMessageQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveMessage.should.be.a('object')
+                done()
+            })
+    })
+
+    it('listMessages', (done) => {
+        request.post('/graphql')
+            .set('authorization', token)
+            .send({ query: listMessagesQuery })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listMessages.should.be.a('array')
                 done()
             })
     })
