@@ -76,9 +76,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 
 app.use((req, res, next) => {
-    //token = req.headers.authorization
-    token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYzgwNTYyNzIyY2YxMmJjNGUxN2I3ZiIsInVzZXJuYW1lIjoid2ViYiIsImlhdCI6MTU3MzU4MzU5MiwiZXhwIjoxNTczODg1OTkyfQ.X-eObs8fnpMnd-DLDKIWythGBdOfTa45i4mlWXPUynY'
-    if (token && token != 'null') {
+    token = req.headers.authorization
+    //token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE0NGZhMzMwYjUyMzYyY2NiNmYzMiIsInVzZXJuYW1lIjoibWFtaSIsImlhdCI6MTU3Mzk5NTgzMCwiZXhwIjoxNTc0Mjk4MjMwfQ.eErIiLOoDnmtL0EyrNaKIfGwpAMaFE0ihJZALTwX_cs'
+    if(req.body.variables.username && req.body.variables.password){
+        next()
+    }
+    else if (token && token != 'null') {
         try {
             req.activeUser = jwt.verify(token, process.env.SECRET_KEY)
             next()
