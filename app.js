@@ -76,19 +76,23 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 
 app.use((req, res, next) => {
-    token = req.headers.authorization
-    //token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE0NGZhMzMwYjUyMzYyY2NiNmYzMiIsInVzZXJuYW1lIjoibWFtaSIsImlhdCI6MTU3Mzk5NTgzMCwiZXhwIjoxNTc0Mjk4MjMwfQ.eErIiLOoDnmtL0EyrNaKIfGwpAMaFE0ihJZALTwX_cs'
-    if(req.body.variables.username && req.body.variables.password){
-        next()
-    }
-    else if (token && token != 'null') {
-        try {
+    //token = req.headers.authorization
+    token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE4MTRjOTA3MjQwMjVlOGI1MTdiZSIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTU3NDAxMTI5NCwiZXhwIjoxNTc0MzEzNjk0fQ.fgXafvSDCuNZa1TfvWqe1ZxKc5RI88fYUSKemtMNZZA'
+
+    try {
+        if (token && token != 'null') {
             req.activeUser = jwt.verify(token, process.env.SECRET_KEY)
             next()
-        } catch (error) {
+        }
+
+        else if (req.body.variables.username && req.body.variables.password) {
+            next()
+        }
+        
+        else {
             res.status(401).end('Unauthorized')
         }
-    } else {
+    } catch (error) {
         res.status(401).end('Unauthorized')
     }
 })

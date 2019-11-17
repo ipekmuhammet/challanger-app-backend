@@ -4,15 +4,15 @@ const should = chai.should()
 const url = `http://localhost:4000/graphql`
 const request = require('supertest')(url)
 
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkOTk2OGZhMzA0MmJkMDQ0YzQyZWNiZSIsInVzZXJuYW1lIjoidGVzdERlbmVtZSIsImlhdCI6MTU3MzY3MzY4MiwiZXhwIjoxNTczOTc2MDgyfQ.C4XKGt34pLwASw3wPAeWmmTMKW5BdZnX7Cdfqs2ez60'
+let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE4MTRjOTA3MjQwMjVlOGI1MTdiZSIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTU3NDAxMTI5NCwiZXhwIjoxNTc0MzEzNjk0fQ.fgXafvSDCuNZa1TfvWqe1ZxKc5RI88fYUSKemtMNZZA'
 
 const createUserQuery = `
 mutation{
     saveUser(
         data: {
-        username: "testDeneme"
-        name: "testDeneme"
-        password: "testDeneme"
+        username: "test"
+        name: "test"
+        password: "test"
     }) {
         token
     }
@@ -20,14 +20,14 @@ mutation{
 
 const signInQuery = `
 mutation {
-    signIn(data: { username: "testDeneme", password: "testDeneme" }) {
+    signIn(data: { username: "test", password: "test" }) {
         token
     }
 }`
 
 const updatePasswordQuery = `
 mutation {
-    updatePassword(data: { oldPassword: "testDeneme", newPassword: "testDeneme" }) {
+    updatePassword(data: { oldPassword: "test", newPassword: "test" }) {
         id
         username
     }
@@ -61,7 +61,7 @@ query{
 
 const saveBlockQuery = `
 mutation {
-    saveBlock(data: { blocked: "5d749a873384ee2c64518013" }) {
+    saveBlock(data: { blocked: "5dd1814c90724025e8b517be" }) {
         blocker {
             username
         }
@@ -73,7 +73,7 @@ mutation {
 
 const deleteBlockQuery = `
 mutation {
-    deleteBlock(data: { blocked: "5d749a873384ee2c64518013" }) {
+    deleteBlock(data: { blocked: "5dd1814c90724025e8b517be" }) {
         blocker {
             username
         }
@@ -93,7 +93,7 @@ query{
 
 const openChatQuery = `
 mutation {
-    openChat(data: { target_id: "5d749a873384ee2c64518013" }) {
+    openChat(data: { target_id: "5dd1814c90724025e8b517be" }) {
         user_id
         target_id
     }
@@ -101,7 +101,7 @@ mutation {
 
 const closeChatQuery = `
 mutation {
-    closeChat(data: { target_id: "5d749a873384ee2c64518013" }) {
+    closeChat(data: { target_id: "5dd1814c90724025e8b517be" }) {
         user_id
         target_id
     }
@@ -133,7 +133,7 @@ mutation {
 
 const listPostsByUserIdQuery = `
 query {
-    listPosts(data: { user_id: "5d749a873384ee2c64518013" }) {
+    listPosts(data: { user_id: "5dd1814c90724025e8b517be" }) {
         id
         user {
             username
@@ -146,7 +146,7 @@ query {
 //Like
 const saveLikeQuery = `
 mutation {
-    saveLike(data: { post_id:"5dcd968e0ab655228073063b" }) {
+    saveLike(data: { post_id:"post_id" }) {
         user_id
         post_id
     }
@@ -155,7 +155,7 @@ mutation {
 
 const listLikesQuery = `
 query {
-    listLikes(data: { post_id: "5dcd968e0ab655228073063b" }) {
+    listLikes(data: { post_id: "" }) {
         user_id
         post_id
     }
@@ -166,7 +166,7 @@ query {
 
 const listChallangesByUserIdQuery = `
 query {
-    listChallanges(data: { user_id: "5d749a873384ee2c64518013" }) {
+    listChallanges(data: { user_id: "5dd1814c90724025e8b517be" }) {
         user {
             username
         }
@@ -246,7 +246,7 @@ mutation {
 
 const saveFollowQuery = `
 mutation {
-    saveFollow(data: { followed: "5d749a873384ee2c64518013" }) {
+    saveFollow(data: { followed: "5dd1814c90724025e8b517be" }) {
         follower {
             username
         }
@@ -260,7 +260,7 @@ mutation {
 
 const updateFollowStatusQuery = `
 mutation {
-    updateFollowStatus(data: { followed: "5d749a873384ee2c64518013" ,follow_status: 0}) {
+    updateFollowStatus(data: { followed: "5dd1814c90724025e8b517be" ,follow_status: 0}) {
         follower {
             username
         }
@@ -274,7 +274,7 @@ mutation {
 
 const listFollowsQuery = `
 query {
-    listFollows(data: { follower: "5d749a873384ee2c64518013" }) {
+    listFollows(data: { follower: "5dd1814c90724025e8b517be" }) {
         follower {
             username
         }
@@ -288,7 +288,7 @@ query {
 
 const listFollowersQuery = `
 query {
-    listFollowers(data: { followed: "5d749a873384ee2c64518013" }) {
+    listFollowers(data: { followed: "5dd1814c90724025e8b517be" }) {
         follower {
             username
         }
@@ -304,7 +304,7 @@ query {
 
 const saveMessageQuery = `
 mutation {
-    saveMessage(data: { receiver: "5d749a873384ee2c64518013", messageText: "test message" }){
+    saveMessage(data: { receiver: "5dd1814c90724025e8b517be", messageText: "test message" }){
         sender
         receiver
         messageText
@@ -328,7 +328,6 @@ query {
 describe('Users', () => {
     it('createUser', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
             .send({ query: createUserQuery })
             .expect(200)
             .end((err, res) => {
@@ -340,7 +339,6 @@ describe('Users', () => {
 
     it('signIn', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
             .send({ query: signInQuery })
             .expect(200)
             .end((err, res) => {
@@ -651,7 +649,7 @@ describe('Likes', () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
-                res.body.data.saveLike.should.be.a('object')
+                res.body.data.should.be.a('object')
                 done()
             })
     })

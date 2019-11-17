@@ -1,5 +1,5 @@
 type Mutation {
-	saveLike(data: SaveLikeInput): Like!
+	saveLike(data: SaveLikeInput): Like
 }
 
 input SaveLikeInput {
