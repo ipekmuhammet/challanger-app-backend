@@ -10,9 +10,9 @@ type Follow {
 }
 
 input ListFollowsInput {
-	follower: String!
+	follower: ID!
 }
 
 input ListFollowersInput {
-	followed: String!
+	followed: ID!
 }

@@ -1,40 +1,49 @@
-const chai = require('chai')
-const { expect } = chai
-const should = chai.should()
+require('chai').should()
+const supertest = require('supertest')
+
 const url = `http://localhost:4000/graphql`
-const request = require('supertest')(url)
+const request = supertest(url)
 
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE4MTRjOTA3MjQwMjVlOGI1MTdiZSIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTU3NDAxMTI5NCwiZXhwIjoxNTc0MzEzNjk0fQ.fgXafvSDCuNZa1TfvWqe1ZxKc5RI88fYUSKemtMNZZA'
+let token,
+    post_id,
+    comment_id,
+    user_id,
+    username = 'test',
+    name = 'test',
+    password = 'test',
+    key = 'searchDeneme'
 
-const createUserQuery = `
+const getToken = () => token
+
+const createUserQuery = () => `
 mutation{
     saveUser(
         data: {
-        username: "test"
-        name: "test"
-        password: "test"
+        username: "${username}"
+        name: "${name}"
+        password: "${password}"
     }) {
         token
     }
 }`
 
-const signInQuery = `
+const signInQuery = () => `
 mutation {
-    signIn(data: { username: "test", password: "test" }) {
+    signIn(data: { username: "${username}", password: "${password}" }) {
         token
     }
 }`
 
-const updatePasswordQuery = `
+const updatePasswordQuery = () => `
 mutation {
-    updatePassword(data: { oldPassword: "test", newPassword: "test" }) {
+    updatePassword(data: { oldPassword: "${password}", newPassword: "${password}" }) {
         id
         username
     }
 }
 `
 
-const getActiveUserQuery = `
+const getActiveUserQuery = () => `
 query {
     getActiveUser{
         id
@@ -42,9 +51,9 @@ query {
     }
 }`
 
-const listUsersQuery = `
+const listUsersQuery = () => `
 query {
-    listUsers(data: { key: "searchDeneme" }) {
+    listUsers(data: { key: "${key}" }) {
         username
         name
     }
@@ -52,16 +61,16 @@ query {
 `
 
 //Block
-const listBlocksQuery = `
+const listBlocksQuery = () => `
 query{
     listBlocks{
         id
     }
 }`
 
-const saveBlockQuery = `
+const saveBlockQuery = () => `
 mutation {
-    saveBlock(data: { blocked: "5dd1814c90724025e8b517be" }) {
+    saveBlock(data: { blocked: "${user_id}" }) {
         blocker {
             username
         }
@@ -71,9 +80,9 @@ mutation {
     }
 }`
 
-const deleteBlockQuery = `
+const deleteBlockQuery = () => `
 mutation {
-    deleteBlock(data: { blocked: "5dd1814c90724025e8b517be" }) {
+    deleteBlock(data: { blocked: "${user_id}" }) {
         blocker {
             username
         }
@@ -84,31 +93,31 @@ mutation {
 }`
 
 //Chat
-const listChatsQuery = `
+const listChatsQuery = () => `
 query{
     listChats{
         user_id
     }
 }`
 
-const openChatQuery = `
+const openChatQuery = () => `
 mutation {
-    openChat(data: { target_id: "5dd1814c90724025e8b517be" }) {
+    openChat(data: { target_id: "${user_id}" }) {
         user_id
         target_id
     }
 }`
 
-const closeChatQuery = `
+const closeChatQuery = () => `
 mutation {
-    closeChat(data: { target_id: "5dd1814c90724025e8b517be" }) {
+    closeChat(data: { target_id: "${user_id}" }) {
         user_id
         target_id
     }
 }`
 
 //Post
-const savePostQuery = `
+const savePostQuery = () => `
 mutation {
     savePost(data: { title: "testPost" }) {
         id
@@ -119,9 +128,9 @@ mutation {
 }
 `
 
-const deletePostQuery = `
+const deletePostQuery = () => `
 mutation {
-    deletePost(data: { id: "" }) {
+    deletePost(data: { id: "${post_id}" }) {
         id
         user {
             username
@@ -131,9 +140,9 @@ mutation {
 }
 `
 
-const listPostsByUserIdQuery = `
+const listPostsByUserIdQuery = () => `
 query {
-    listPosts(data: { user_id: "5dd1814c90724025e8b517be" }) {
+    listPosts(data: { user_id: "${user_id}" }) {
         id
         user {
             username
@@ -144,29 +153,30 @@ query {
 `
 
 //Like
-const saveLikeQuery = `
+
+const saveLikeQuery = () => `
 mutation {
-    saveLike(data: { post_id:"post_id" }) {
+    saveLike(data: { post_id: "${post_id}" }) {
         user_id
         post_id
     }
 }
 `
 
-const listLikesQuery = `
+const listLikesQuery = () => `
 query {
-    listLikes(data: { post_id: "" }) {
+    listLikes(data: { post_id: "${post_id}" }) {
         user_id
         post_id
     }
-  }
+}
 `
 
 //Challange
 
-const listChallangesByUserIdQuery = `
+const listChallangesByUserIdQuery = () => `
 query {
-    listChallanges(data: { user_id: "5dd1814c90724025e8b517be" }) {
+    listChallanges(data: { user_id: "${user_id}" }) {
         user {
             username
         }
@@ -174,13 +184,13 @@ query {
 }
 `
 
-const saveChallangeQuery = `
+const saveChallangeQuery = () => `
 mutation {
     saveChallange(
         data: {
-        categorie_id: "category1"
+        categorie_id: "categorie_id"
         title: "title"
-        video: "videoo"
+        video: "video"
     }) {
         user {
             username
@@ -191,7 +201,7 @@ mutation {
 
 //ChallangeCategorie
 
-const listChallangeCategorieQuery = `
+const listChallangeCategorieQuery = () => `
 query {
     listChallangeCategories {
         name
@@ -199,9 +209,9 @@ query {
 }
 `
 
-const saveChallangeCategorieQuery = `
+const saveChallangeCategorieQuery = () => `
 mutation {
-    saveChallangeCategorie(data: {name:"deneme categorie"}) {
+    saveChallangeCategorie(data: { name: "name" }) {
         name
     }
 }
@@ -209,9 +219,9 @@ mutation {
 
 //Comment
 
-const listCommentsQuery = `
+const listCommentsQuery = () => `
 query {
-    listComments(data: { post_id: "5dcd968e0ab655228073063b" }) {
+    listComments(data: { post_id: "${post_id}" }) {
         id
         user {
             username
@@ -220,9 +230,9 @@ query {
 }
 `
 
-const saveCommentQuery = `
+const saveCommentQuery = () => `
 mutation {
-    saveComment(data: { post_id: "5dcd968e0ab655228073063b", comment: "denemeComment" }) {
+    saveComment(data: { post_id: "${post_id}", comment: "comment" }) {
         id
         user {
             username
@@ -231,9 +241,9 @@ mutation {
 }
 `
 
-const deleteCommentQuery = `
+const deleteCommentQuery = () => `
 mutation {
-    deleteComment(data: { commentId: ""}) {
+    deleteComment(data: { commentId: "${comment_id}" }) {
         id
         user {
             username
@@ -244,9 +254,9 @@ mutation {
 
 //Follow
 
-const saveFollowQuery = `
+const saveFollowQuery = () => `
 mutation {
-    saveFollow(data: { followed: "5dd1814c90724025e8b517be" }) {
+    saveFollow(data: { followed: "${user_id}" }) {
         follower {
             username
         }
@@ -258,9 +268,9 @@ mutation {
 }
 `
 
-const updateFollowStatusQuery = `
+const updateFollowStatusQuery = () => `
 mutation {
-    updateFollowStatus(data: { followed: "5dd1814c90724025e8b517be" ,follow_status: 0}) {
+    updateFollowStatus(data: { followed: "${user_id}", follow_status: 0 }) {
         follower {
             username
         }
@@ -272,9 +282,9 @@ mutation {
 }
 `
 
-const listFollowsQuery = `
+const listFollowsQuery = () => `
 query {
-    listFollows(data: { follower: "5dd1814c90724025e8b517be" }) {
+    listFollows(data: { follower: "${user_id}" }) {
         follower {
             username
         }
@@ -286,9 +296,9 @@ query {
 }
 `
 
-const listFollowersQuery = `
+const listFollowersQuery = () => `
 query {
-    listFollowers(data: { followed: "5dd1814c90724025e8b517be" }) {
+    listFollowers(data: { followed: "${user_id}" }) {
         follower {
             username
         }
@@ -297,14 +307,14 @@ query {
         }
         follow_status
     }
-  }
+}
 `
 
 //Message
 
-const saveMessageQuery = `
+const saveMessageQuery = () => `
 mutation {
-    saveMessage(data: { receiver: "5dd1814c90724025e8b517be", messageText: "test message" }){
+    saveMessage(data: { receiver: "${user_id}", messageText: "messageText" }){
         sender
         receiver
         messageText
@@ -312,7 +322,7 @@ mutation {
 }
 `
 
-const listMessagesQuery = `
+const listMessagesQuery = () => `
 query {
     listMessages {
         user {
@@ -328,7 +338,7 @@ query {
 describe('Users', () => {
     it('createUser', (done) => {
         request.post('/graphql')
-            .send({ query: createUserQuery })
+            .send({ query: createUserQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
@@ -339,45 +349,44 @@ describe('Users', () => {
 
     it('signIn', (done) => {
         request.post('/graphql')
-            .send({ query: signInQuery })
+            .send({ query: signInQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.signIn.token.should.be.a('string')
-                //token = res.body.data.signIn.token
+                token = res.body.data.signIn.token
                 done()
             })
     })
 
     it('updatePassword', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: updatePasswordQuery })
+            .set('authorization', getToken())
+            .send({ query: updatePasswordQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
-                //console.log(res.body.data.updatePassword)
-                //token = res.body.data.signIn.token
                 done()
             })
     })
 
     it('getActiveUser', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: getActiveUserQuery })
+            .set('authorization', getToken())
+            .send({ query: getActiveUserQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.getActiveUser.should.be.a('object')
+                user_id = res.body.data.getActiveUser.id
                 done()
             })
     })
 
     it('listUsers', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: listUsersQuery })
+            .set('authorization', getToken())
+            .send({ query: listUsersQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
@@ -387,11 +396,125 @@ describe('Users', () => {
     })
 })
 
+describe('Follows', async () => {
+    it('saveFollow', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: saveFollowQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveFollow.should.be.a('object')
+                done()
+            })
+    })
+
+    it('updateFollowStatus', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: updateFollowStatusQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.updateFollowStatus.should.be.a('object')
+                done()
+            })
+    })
+
+    it('listFollows', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: listFollowsQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listFollows.should.be.a('array')
+                done()
+            })
+    })
+
+    it('listFollowers', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: listFollowersQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listFollowers.should.be.a('array')
+                done()
+            })
+    })
+})
+
+describe('Chats', () => {
+    it('listChats', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: listChatsQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listChats.should.be.a('array')
+                done()
+            })
+    })
+
+    it('openChat', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: openChatQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.openChat.should.be.a('object')
+                done()
+            })
+    })
+
+    it('closeChat', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: closeChatQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.closeChat.should.be.a('object')
+                done()
+            })
+    })
+})
+
+describe('Messages', () => {
+    it('saveMessage', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: saveMessageQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveMessage.should.be.a('object')
+                done()
+            })
+    })
+
+    it('listMessages', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: listMessagesQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listMessages.should.be.a('array')
+                done()
+            })
+    })
+})
+
 describe('Challanges', () => {
     it('listChallanges By User Id', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: listChallangesByUserIdQuery })
+            .set('authorization', getToken())
+            .send({ query: listChallangesByUserIdQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
@@ -402,8 +525,8 @@ describe('Challanges', () => {
 
     it('saveChallange', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: saveChallangeQuery })
+            .set('authorization', getToken())
+            .send({ query: saveChallangeQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
@@ -416,8 +539,8 @@ describe('Challanges', () => {
 describe('ChallangeCategories', () => {
     it('listChallangeCategories', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: listChallangeCategorieQuery })
+            .set('authorization', getToken())
+            .send({ query: listChallangeCategorieQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
@@ -428,8 +551,8 @@ describe('ChallangeCategories', () => {
 
     it('saveChallangeCategorie', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: saveChallangeCategorieQuery })
+            .set('authorization', getToken())
+            .send({ query: saveChallangeCategorieQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
@@ -439,187 +562,24 @@ describe('ChallangeCategories', () => {
     })
 })
 
-describe('Blocks', () => {
-    it('listBlocks', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: listBlocksQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.listBlocks.should.be.a('array')
-                done()
-            })
-    })
-
-    it('saveBlock', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: saveBlockQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.saveBlock.should.be.a('object')
-                done()
-            })
-    })
-
-    it('deleteBlock', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: deleteBlockQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.deleteBlock.should.be.a('object')
-                done()
-            })
-    })
-})
-
-describe('Chats', () => {
-    it('listChats', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: listChatsQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.listChats.should.be.a('array')
-                done()
-            })
-    })
-
-    it('openChat', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: openChatQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.openChat.should.be.a('object')
-                done()
-            })
-    })
-
-    it('closeChat', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: closeChatQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.closeChat.should.be.a('object')
-                done()
-            })
-    })
-})
-
-describe('Comments', async () => {
-    it('listComments', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: listCommentsQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.listComments.should.be.a('array')
-                done()
-            })
-    })
-
-    it('saveComment', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: saveCommentQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.saveComment.should.be.a('object')
-                done()
-            })
-    })
-
-    it('deleteComment', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: deleteCommentQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.should.be.a('object')
-                done()
-            })
-    })
-})
-
-describe('Comments', async () => {
-    it('saveFollow', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: saveFollowQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.saveFollow.should.be.a('object')
-                done()
-            })
-    })
-
-    it('updateFollowStatus', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: updateFollowStatusQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.updateFollowStatus.should.be.a('object')
-                done()
-            })
-    })
-
-    it('listFollows', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: listFollowsQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.listFollows.should.be.a('array')
-                done()
-            })
-    })
-
-    it('listFollowers', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: listFollowersQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.listFollowers.should.be.a('array')
-                done()
-            })
-    })
-})
-
 describe('Posts', () => {
     it('savePost', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: savePostQuery })
+            .set('authorization', getToken())
+            .send({ query: savePostQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.savePost.should.be.a('object')
+                post_id = res.body.data.savePost.id
                 done()
             })
     })
 
     it('deletePost', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: deletePostQuery })
+            .set('authorization', getToken())
+            .send({ query: deletePostQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
@@ -630,8 +590,8 @@ describe('Posts', () => {
 
     it('listPosts By User Id', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: listPostsByUserIdQuery })
+            .set('authorization', getToken())
+            .send({ query: listPostsByUserIdQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
@@ -641,11 +601,87 @@ describe('Posts', () => {
     })
 })
 
+describe('Blocks', () => {
+    it('listBlocks', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: listBlocksQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listBlocks.should.be.a('array')
+                done()
+            })
+    })
+
+    it('saveBlock', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: saveBlockQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveBlock.should.be.a('object')
+                done()
+            })
+    })
+
+    it('deleteBlock', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: deleteBlockQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.deleteBlock.should.be.a('object')
+                done()
+            })
+    })
+})
+
+describe('Comments', async () => {
+    it('listComments', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: listCommentsQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listComments.should.be.a('array')
+                done()
+            })
+    })
+
+    it('saveComment', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: saveCommentQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveComment.should.be.a('object')
+                done()
+            })
+    })
+
+    it('deleteComment', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: deleteCommentQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.should.be.a('object')
+                done()
+            })
+    })
+})
+
 describe('Likes', () => {
     it('saveLike', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: saveLikeQuery })
+            .set('authorization', getToken())
+            .send({ query: saveLikeQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
@@ -656,38 +692,12 @@ describe('Likes', () => {
 
     it('listLikes', (done) => {
         request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: listLikesQuery })
+            .set('authorization', getToken())
+            .send({ query: listLikesQuery() })
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.listLikes.should.be.a('array')
-                done()
-            })
-    })
-})
-
-describe('Messages', () => {
-    it('saveMessage', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: saveMessageQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.saveMessage.should.be.a('object')
-                done()
-            })
-    })
-
-    it('listMessages', (done) => {
-        request.post('/graphql')
-            .set('authorization', token)
-            .send({ query: listMessagesQuery })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.listMessages.should.be.a('array')
                 done()
             })
     })
