@@ -76,8 +76,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 
 app.use((req, res, next) => {
-    token = req.headers.authorization
-    //token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE0NGZhMzMwYjUyMzYyY2NiNmYzMiIsInVzZXJuYW1lIjoibWFtaSIsImlhdCI6MTU3NDM1MzA5MiwiZXhwIjoxNTc0NjU1NDkyfQ.W_0pJvyjyKyRHG1EVeLAduGWzRDAXVJPCP5-z4S8kcY'
+    //token = req.headers.authorization
+    token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE0NGZhMzMwYjUyMzYyY2NiNmYzMiIsInVzZXJuYW1lIjoibWFtaSIsImlhdCI6MTU3NDM1OTQ4NiwiZXhwIjoxNTc0NjYxODg2fQ.GwgDzMxb8-BbsiMYrWvQ68JCAo0mc6oZ7S60IT-ajiA'
     try {
         //next()
         if (token && token != 'null') {

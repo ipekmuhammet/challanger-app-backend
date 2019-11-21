@@ -12,12 +12,15 @@
 
 # import Query from './schemas/comment/commentSchema.graphql'
 # import Mutation from './schemas/comment/commentMutation.graphql'
+# import Subscription from './schemas/comment/commentSubscription.graphql'
 
 # import Query from './schemas/follow/followSchema.graphql'
 # import Mutation from './schemas/follow/followMutation.graphql'
+# import Subscription from './schemas/follow/followSubscription.graphql'
 
 # import Query from './schemas/like/likeSchema.graphql'
 # import Mutation from './schemas/like/likeMutation.graphql'
+# import Subscription from './schemas/like/likeSubscription.graphql'
 
 # import Query from './schemas/message/messageSchema.graphql'
 # import Mutation from './schemas/message/messageMutation.graphql'
