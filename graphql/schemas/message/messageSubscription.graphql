@@ -1,0 +1,9 @@
+type MessageSourceForSubscription {
+	id: ID!
+	user: User!
+	messages: [Message!]
+}
+
+type Subscription {
+	message: MessageSourceForSubscription!
+}

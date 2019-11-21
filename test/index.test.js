@@ -16,7 +16,7 @@ let token,
 const getToken = () => token
 
 const createUserQuery = () => `
-mutation{
+mutation {
     saveUser(
         data: {
         username: "${username}"
@@ -45,7 +45,7 @@ mutation {
 
 const getActiveUserQuery = () => `
 query {
-    getActiveUser{
+    getActiveUser {
         id
         username
     }
@@ -63,7 +63,7 @@ query {
 //Block
 const listBlocksQuery = () => `
 query{
-    listBlocks{
+    listBlocks {
         id
     }
 }`
@@ -95,7 +95,7 @@ mutation {
 //Chat
 const listChatsQuery = () => `
 query{
-    listChats{
+    listChats {
         user_id
     }
 }`
@@ -314,7 +314,7 @@ query {
 
 const saveMessageQuery = () => `
 mutation {
-    saveMessage(data: { receiver: "${user_id}", messageText: "messageText" }){
+    saveMessage(data: { receiver: "${user_id}", messageText: "messageText" }) {
         sender
         receiver
         messageText

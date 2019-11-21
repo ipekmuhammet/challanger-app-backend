@@ -10,12 +10,6 @@ type MessageSource {
 	messages: [Message!]
 }
 
-type MessageSourceForSubscription {
-	id: ID!
-	user: User!
-	messages: [Message!]
-}
-
 type Message {
 	sender:ID!
 	receiver:ID!
@@ -23,8 +17,4 @@ type Message {
 	fileData: String
 	fileType: String
 	createdAt: Date!
-}
-
-type Subscription {
-	message: MessageSourceForSubscription!
 }

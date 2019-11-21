@@ -2,9 +2,17 @@ scalar Date
 
 type Mutation {
 	saveUser(data: CreateUserInput): Token!
+	signIn(data: SignInInput): Token!
 	updatePassword(data: UpdatePasswordInput): User!
 	updateUser(data: UpdateUserInput): User!
-	signIn(data: SignInInput): Token!
+}
+
+input CreateUserInput {
+	username: String!
+	name: String!
+	password: String!
+	profilePic: String
+	information: String
 }
 
 input SignInInput {
@@ -25,12 +33,4 @@ input UpdateUserInput {
 	profilePic: String
 	information: String
 	lastOnlineDate: Date
-}
-
-input CreateUserInput {
-	username: String!
-	name: String!
-	password: String!
-	profilePic: String
-	information: String
 }

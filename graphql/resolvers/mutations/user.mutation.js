@@ -16,6 +16,7 @@ module.exports = {
 
         return { token: token.generate(user, '84h') }
     },
+
     signIn: async (source, { data: { username, password } }, { User }) => {
         user = await User.findOne({ username })
         if (!user) throw new Error('User does not exists.')
@@ -25,6 +26,7 @@ module.exports = {
 
         return { token: token.generate(user, '84h') }
     },
+
     updatePassword: async (source, { data: { oldPassword, newPassword } }, { User, activeUser }) => {
         user = await User.findById(activeUser.id)
         isOldPasswordCorrect = await bcrypt.compare(oldPassword, user.password)

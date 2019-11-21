@@ -10,23 +10,23 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 require('./helpers/database')()
 
+const User = require('./helpers/database/models/UserSchema')
+const Post = require('./helpers/database/models/PostSchema')
+const ChallangeCategorie = require('./helpers/database/models/ChallangeCategorieSchema')
+const Challange = require('./helpers/database/models/ChallangeSchema')
+const Comment = require('./helpers/database/models/CommentSchema')
+const Like = require('./helpers/database/models/LikeSchema')
+const Follow = require('./helpers/database/models/FollowSchema')
+const Message = require('./helpers/database/models/MessageSchema')
+const Chat = require('./helpers/database/models/ChatSchema')
+const Block = require('./helpers/database/models/BlockSchema')
+
+const typeDefs = importSchema('./graphql/schema.graphql')
 const resolvers = require('./graphql/resolvers/index')
 
-const User = require('./helpers/models/UserSchema')
-const Post = require('./helpers/models/PostSchema')
-const ChallangeCategorie = require('./helpers/models/ChallangeCategorieSchema')
-const Challange = require('./helpers/models/ChallangeSchema')
-const Comment = require('./helpers/models/CommentSchema')
-const Like = require('./helpers/models/LikeSchema')
-const Follow = require('./helpers/models/FollowSchema')
-const Message = require('./helpers/models/MessageSchema')
-const Chat = require('./helpers/models/ChatSchema')
-const Block = require('./helpers/models/BlockSchema')
-const typeDefs = importSchema('./graphql/schema.graphql')
+const app = express()
 
 const pubSub = new PubSub()
-
-const app = express()
 
 let token, activeUser
 
@@ -34,7 +34,7 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     subscriptions: {
-        onConnect: (connectionParams, webSocket) => {
+        onConnect: connectionParams => {
             if (connectionParams.authorization) {
                 try {
                     return {
@@ -76,22 +76,16 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 
 app.use((req, res, next) => {
-    //token = req.headers.authorization
-    token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE4MTRjOTA3MjQwMjVlOGI1MTdiZSIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTU3NDAxMTI5NCwiZXhwIjoxNTc0MzEzNjk0fQ.fgXafvSDCuNZa1TfvWqe1ZxKc5RI88fYUSKemtMNZZA'
-
+    token = req.headers.authorization
+    //token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE0NGZhMzMwYjUyMzYyY2NiNmYzMiIsInVzZXJuYW1lIjoibWFtaSIsImlhdCI6MTU3NDM1MzA5MiwiZXhwIjoxNTc0NjU1NDkyfQ.W_0pJvyjyKyRHG1EVeLAduGWzRDAXVJPCP5-z4S8kcY'
     try {
+        //next()
         if (token && token != 'null') {
             req.activeUser = jwt.verify(token, process.env.SECRET_KEY)
             next()
         }
-
-        else if (req.body.variables.username && req.body.variables.password) {
-            next()
-        }
-        
-        else {
-            res.status(401).end('Unauthorized')
-        }
+        else if (req.body.variables.username && req.body.variables.password) next()
+        else res.status(401).end('Unauthorized')
     } catch (error) {
         res.status(401).end('Unauthorized')
     }

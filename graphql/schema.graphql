@@ -21,7 +21,7 @@
 
 # import Query from './schemas/message/messageSchema.graphql'
 # import Mutation from './schemas/message/messageMutation.graphql'
-# import Subscription from './schemas/message/messageSchema.graphql'
+# import Subscription from './schemas/message/messageSubscription.graphql'
 
 # import Query from './schemas/chat/chatSchema.graphql'
 # import Mutation from './schemas/chat/chatMutation.graphql'

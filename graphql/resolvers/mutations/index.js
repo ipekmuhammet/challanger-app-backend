@@ -9,15 +9,15 @@ const commentMutation = require('./comment.mutation')
 const likeMutation = require('./like.mutation')
 const blockMutation = require('./block.mutation')
 
-module.exports = {
-    ...userMutation,
-    ...postMutation,
-    ...followMutation,
-    ...challangeMutation,
-    ...challangeCategorieMutation,
-    ...messageMutation,
-    ...chatMutation,
-    ...commentMutation,
-    ...likeMutation,
-    ...blockMutation,
-}
+module.exports = Object.assign(
+    userMutation,
+    postMutation,
+    followMutation,
+    challangeMutation,
+    challangeCategorieMutation,
+    messageMutation,
+    chatMutation,
+    commentMutation,
+    likeMutation,
+    blockMutation,
+)
