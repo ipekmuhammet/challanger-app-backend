@@ -1,7 +1,11 @@
-const message = require('./message.subscription')
+const comment = require('./comment.subscription')
+const follow = require('./follow.subscription')
 const like = require('./like.subscription')
+const message = require('./message.subscription')
 
 module.exports = {
-    message,
-    like
+    comment,
+    follow,
+    like,
+    message
 }
