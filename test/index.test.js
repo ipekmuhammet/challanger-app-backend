@@ -1,7 +1,8 @@
 require('chai').should()
 const supertest = require('supertest')
 
-const url = `http://localhost:4000/graphql`
+const PORT = process.env.PORT || 4000
+const url = `http://localhost:${PORT}/graphql`
 const request = supertest(url)
 
 let token,
