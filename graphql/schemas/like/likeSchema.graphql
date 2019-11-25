@@ -3,6 +3,7 @@ type Query {
 }
 
 type Like {
+	id: ID!
 	user_id: String!
 	post_id: String!
 }
