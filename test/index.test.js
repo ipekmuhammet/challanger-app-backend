@@ -396,7 +396,7 @@ describe('Users', () => {
     })
 })
 
-describe('Follows', async () => {
+describe('Follows', () => {
     it('saveFollow', (done) => {
         request.post('/graphql')
             .set('authorization', getToken())
@@ -441,6 +441,44 @@ describe('Follows', async () => {
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.listFollowers.should.be.a('array')
+                done()
+            })
+    })
+})
+
+describe('Blocks', () => {
+    it('listBlocks', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: listBlocksQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.listBlocks.should.be.a('array')
+                done()
+            })
+    })
+
+    it('saveBlock', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: saveBlockQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.saveBlock.should.be.a('object')
+                done()
+            })
+    })
+
+    it('deleteBlock', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: deleteBlockQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.deleteBlock.should.be.a('object')
                 done()
             })
     })
@@ -576,18 +614,6 @@ describe('Posts', () => {
             })
     })
 
-    it('deletePost', (done) => {
-        request.post('/graphql')
-            .set('authorization', getToken())
-            .send({ query: deletePostQuery() })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.should.be.a('object')
-                done()
-            })
-    })
-
     it('listPosts By User Id', (done) => {
         request.post('/graphql')
             .set('authorization', getToken())
@@ -596,44 +622,6 @@ describe('Posts', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.listPosts.should.be.a('array')
-                done()
-            })
-    })
-})
-
-describe('Blocks', () => {
-    it('listBlocks', (done) => {
-        request.post('/graphql')
-            .set('authorization', getToken())
-            .send({ query: listBlocksQuery() })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.listBlocks.should.be.a('array')
-                done()
-            })
-    })
-
-    it('saveBlock', (done) => {
-        request.post('/graphql')
-            .set('authorization', getToken())
-            .send({ query: saveBlockQuery() })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.saveBlock.should.be.a('object')
-                done()
-            })
-    })
-
-    it('deleteBlock', (done) => {
-        request.post('/graphql')
-            .set('authorization', getToken())
-            .send({ query: deleteBlockQuery() })
-            .expect(200)
-            .end((err, res) => {
-                if (err) return done(err)
-                res.body.data.deleteBlock.should.be.a('object')
                 done()
             })
     })
@@ -698,6 +686,20 @@ describe('Likes', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 res.body.data.listLikes.should.be.a('array')
+                done()
+            })
+    })
+})
+
+describe('Posts - 2', () => {
+    it('deletePost', (done) => {
+        request.post('/graphql')
+            .set('authorization', getToken())
+            .send({ query: deletePostQuery() })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                res.body.data.should.be.a('object')
                 done()
             })
     })
