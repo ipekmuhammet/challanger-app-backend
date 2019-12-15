@@ -13,9 +13,9 @@ module.exports = {
         })
 
         data.file.then(file => {
-            const { stream, filename, mimetype } = file
+            let { stream, filename, mimetype } = file
 
-            stream.pipe(fs.createWriteStream(`./uploadedFiles/${filename}`))
+            stream.pipe(fs.createWriteStream(`./uploaded_files/${filename}`))
         })
 
         message = await new Message(Object.assign(data, { sender: activeUser.id })).save()
