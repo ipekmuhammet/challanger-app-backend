@@ -33,6 +33,7 @@ let token, activeUser
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    uploads: true,
     subscriptions: {
         onConnect: connectionParams => {
             if (connectionParams.authorization) {
@@ -73,13 +74,13 @@ const port = process.env.PORT || 4000
 app.use(cors())
 app.use(helmet())
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
+app.use(bodyParser.urlencoded({ limit: 10000000, extended: true }))
 
 app.use((req, res, next) => {
     //token = req.headers.authorization
-    token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE0NGZhMzMwYjUyMzYyY2NiNmYzMiIsInVzZXJuYW1lIjoibWFtaSIsImlhdCI6MTU3NDY5NTYyMCwiZXhwIjoxNTc0OTk4MDIwfQ.VyNtDIQ9q0lJotYY-MtdVacfQ-shvgVSZVSJp3sQa3E'
+    token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE0NGZhMzMwYjUyMzYyY2NiNmYzMiIsInVzZXJuYW1lIjoibWFtaSIsImlhdCI6MTU3NjQyODE0OSwiZXhwIjoxNTc2NzMwNTQ5fQ.pCmPoQUNugYqh598eEoqQgBAiz3MFwUtWVpLJPds7xs'
+    //next()
     try {
-        //next()
         if (token && token != 'null') {
             req.activeUser = jwt.verify(token, process.env.SECRET_KEY)
             next()

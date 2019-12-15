@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 let message
 
 module.exports = {
@@ -10,7 +12,13 @@ module.exports = {
             if (error || !result) new Chat({ user_id: activeUser.id, target_id: data.receiver }).save()
         })
 
-        message = await new Message({ sender: activeUser.id, ...data }).save()
+        data.file.then(file => {
+            const { stream, filename, mimetype } = file
+
+            stream.pipe(fs.createWriteStream(`./uploadedFiles/${filename}`))
+        })
+
+        message = await new Message(Object.assign(data, { sender: activeUser.id })).save()
         pubSub.publish('message', { message })
         return message
     }

@@ -1,3 +1,5 @@
+scalar FileUpload
+
 type Mutation {
 	saveMessage(data: SaveMessageInput): Message!
 }
@@ -5,6 +7,5 @@ type Mutation {
 input SaveMessageInput {
 	receiver: String!
 	messageText: String!
-	fileData: String
-	fileType: String
+	file: FileUpload
 }

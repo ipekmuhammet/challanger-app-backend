@@ -12,7 +12,7 @@ module.exports = {
                         result.deleteOne()
                     }
                     else if (!error && !result) {
-                        like = await new Like({ ...data, user_id: activeUser.id }).save()
+                        like = await new Like(Object.assign(data, { user_id: activeUser.id })).save()
                         pubSub.publish('like', { like })
                     }
                 })

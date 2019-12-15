@@ -11,10 +11,15 @@ type MessageSource {
 }
 
 type Message {
-	sender:ID!
-	receiver:ID!
+	sender: ID!
+	receiver: ID!
 	messageText: String!
-	fileData: String
-	fileType: String
 	createdAt: Date!
+	image: File
+}
+
+type File {
+	filename: String!
+	mimetype: String!
+	encoding: String!
 }
